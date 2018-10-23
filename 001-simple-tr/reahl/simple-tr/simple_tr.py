@@ -27,8 +27,8 @@ class TR(Base):
     @exposed
     def fields(self, fields):
         fields.input_text = Field(label='Input Text', required=True)
-        fields.separator  = Field(label='Separated by (Regular Expression)', required=True)
-        fields.joiner     = Field(label='Join with (Character String)', required=True)
+        fields.separator  = Field(label='Separated by', required=True)
+        fields.joiner     = Field(label='Join with', required=True)
 
     @property
     def has_data(self):
@@ -67,8 +67,8 @@ class InputForm(Form):
         inputs.use_layout(FormLayout())
 
         inputs.layout.add_input(TextInput(self, tr.fields.input_text))
-        inputs.layout.add_input(TextInput(self, tr.fields.separator))
-        inputs.layout.add_input(TextInput(self, tr.fields.joiner))
+        inputs.layout.add_input(TextInput(self, tr.fields.separator), help_text='(Regular expression)')
+        inputs.layout.add_input(TextInput(self, tr.fields.joiner), help_text='(Character string)')
 
         button = inputs.add_child(Button(self, tr.events.save))
         button.use_layout(ButtonLayout(style='primary'))
