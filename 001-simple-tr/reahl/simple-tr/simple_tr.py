@@ -82,14 +82,9 @@ class MyPanel(Div):
         my_form = InputForm(view, tr)
         self.add_child(my_form)
 
-        self.add_child(OutputBox(view, tr))
-
-
-class OutputBox(Widget):
-    def __init__(self, view, tr):
-        super(__class__, self).__init__(view)
         if tr.has_data:
             self.add_child(P(view, text=tr.translated_string))
+
 
 class MyUI(UserInterface):
     def assemble(self):
