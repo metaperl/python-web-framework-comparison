@@ -30,7 +30,7 @@ class TR(Base):
         fields.separator  = Field(label='Separated by (Regular Expression)', required=True)
         fields.joiner     = Field(label='Join with (Character String)', required=True)
 
-    @property
+    @property
     def has_data(self):
         return self.input_text and self.separator and self.joiner
 
