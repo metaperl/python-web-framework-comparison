@@ -30,21 +30,23 @@ class TR(Base):
         fields.separator  = Field(label='Separated by (Regular Expression)', required=True)
         fields.joiner     = Field(label='Join with (Character String)', required=True)
 
-    def save(self):
-        Session.add(self)
-
-    def has_data(cls):
+    @property
+    def has_data(self):
         return self.input_text and self.separator and self.joiner
 
     @exposed('save')
     def events(self, events):
-        events.save = Event(label='Perform Tr', action=Action(self.save))
+        events.save = Event(label='Perform Tr')
+
+    @property
+    def translated_string(self):
+        import re
+        return re.sub(self.separator, self.joiner, self.input_text)
 
 
 class MyPage(HTML5Page):
     def __init__(self, view):
         super(__class__, self).__init__(view)
-
 
         self.body.use_layout(Container())
 
@@ -67,7 +69,6 @@ class InputForm(Form):
         inputs.layout.add_input(TextInput(self, tr.fields.input_text))
         inputs.layout.add_input(TextInput(self, tr.fields.separator))
         inputs.layout.add_input(TextInput(self, tr.fields.joiner))
-        self.tr = tr
 
         button = inputs.add_child(Button(self, tr.events.save))
         button.use_layout(ButtonLayout(style='primary'))
@@ -87,10 +88,8 @@ class MyPanel(Div):
 class OutputBox(Widget):
     def __init__(self, view, tr):
         super(__class__, self).__init__(view)
-        if tr.has_data():
-            import re
-            new_str = re.sub(tr.separator, tr.joiner, tr.input_text)
-            self.add_child(P(view, text=new_str))
+        if tr.has_data:
+            self.add_child(P(view, text=tr.translated_string))
 
 class MyUI(UserInterface):
     def assemble(self):
