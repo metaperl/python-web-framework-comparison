@@ -15,7 +15,7 @@ specification:
 Create a program which accepts:
 * a string of 255 characters
 * a separation regular expression to detect (default: \s+)
-* a joining characcter to replace the separation with (default: -)
+* a joining character to replace the separation with (default: -)
 
 Upon hitting the submit button, the program provides a version of the
 string with any detected separations replaced with the joined
